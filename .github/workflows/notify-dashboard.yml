@@ -1,0 +1,24 @@
+name: notify-dashboard
+on:
+  push:
+    branches: [main]
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Austria-web rebuild
+        env:
+          AUSTRIA_WEB_PAT: ${{ secrets.AUSTRIA_WEB_PAT }}
+        run: |
+          token="$(printf '%s' "$AUSTRIA_WEB_PAT" | tr -d '[:space:]')"
+          code=$(curl -sS -o /tmp/resp.txt -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $token" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/Chougaku/Austria-web/dispatches \
+            -d '{"event_type":"vault-updated"}')
+          echo "HTTP $code"
+          cat /tmp/resp.txt
+          if [ "$code" != "204" ]; then
+            echo "::error::dispatch 失敗（HTTP $code）。400=token 含換行/空白；401=PAT 無效/過期；404=PAT 對 Austria-web 沒 contents:write 權限"
+            exit 1
+          fi
