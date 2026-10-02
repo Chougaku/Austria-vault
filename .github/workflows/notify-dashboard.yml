@@ -11,6 +11,10 @@ jobs:
           AUSTRIA_WEB_PAT: ${{ secrets.AUSTRIA_WEB_PAT }}
         run: |
           token="$(printf '%s' "$AUSTRIA_WEB_PAT" | tr -d '[:space:]')"
+          if [ -z "$token" ]; then
+            echo "::warning::還沒設定 AUSTRIA_WEB_PAT，略過通知 Austria-web 重建（Austria-vault → Settings → Secrets and variables → Actions 新增後生效）"
+            exit 0
+          fi
           code=$(curl -sS -o /tmp/resp.txt -w '%{http_code}' -X POST \
             -H "Authorization: Bearer $token" \
             -H "Accept: application/vnd.github+json" \
