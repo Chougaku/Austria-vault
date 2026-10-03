@@ -23,6 +23,6 @@ jobs:
           echo "HTTP $code"
           cat /tmp/resp.txt
           if [ "$code" != "204" ]; then
-            echo "::error::dispatch 失敗（HTTP $code）。400=token 含換行/空白；401=PAT 無效/過期；404=PAT 對 Austria-web 沒 contents:write 權限"
+            echo "::error::dispatch 失敗（HTTP $code）。400=token 含換行/空白；401=PAT 無效/過期；403/404=PAT 碰不到 Austria-web：Repository access 要選到 Chougaku/Austria-web，Contents 要 Read and write"
             exit 1
           fi
