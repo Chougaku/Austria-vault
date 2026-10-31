@@ -1,7 +1,7 @@
 ---
-title: "Öfferl - Praterstrasse 26（更）"
+title: "Öfferl - Praterstrasse 26"
 tags: ["餐廳","維也納"]
-updated: 2026-10-29
+updated: 2026-10-31
 ---
 
 價格較高，較多人推甜點及糕點，但奶油蛋捲配火腿很特別
